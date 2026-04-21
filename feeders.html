@@ -9,192 +9,86 @@
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg: #0f0f0f;
-    --bg2: #1a1a1a;
-    --bg3: #222;
-    --border: rgba(255,255,255,0.08);
-    --border2: rgba(255,255,255,0.14);
-    --text: #f0f0f0;
-    --text2: #999;
-    --text3: #555;
-    --ff: 'Barlow', sans-serif;
-    --fm: 'JetBrains Mono', monospace;
+    --bg: #0f0f0f; --bg2: #1a1a1a; --bg3: #222;
+    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.14);
+    --text: #f0f0f0; --text2: #999; --text3: #555;
+    --ff: 'Barlow', sans-serif; --fm: 'JetBrains Mono', monospace;
     --ok: #22c55e; --ok-bg: rgba(34,197,94,0.12); --ok-bd: rgba(34,197,94,0.25);
     --warn: #f59e0b; --warn-bg: rgba(245,158,11,0.12); --warn-bd: rgba(245,158,11,0.25);
     --err: #ef4444; --err-bg: rgba(239,68,68,0.12); --err-bd: rgba(239,68,68,0.25);
-    --accent: #3b82f6;
-    --r: 12px;
+    --accent: #3b82f6; --r: 12px;
   }
-
   html { background: var(--bg); color: var(--text); font-family: var(--ff); min-height: 100%; }
   body { min-height: 100vh; }
-
-  /* ─── NAV ─── */
-  .topbar {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(15,15,15,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 16px;
-    display: flex; align-items: center; justify-content: space-between; height: 52px;
-  }
+  .topbar { position: sticky; top: 0; z-index: 100; background: rgba(15,15,15,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 16px; display: flex; align-items: center; justify-content: space-between; height: 52px; }
   .topbar-logo { font-family: var(--fm); font-size: 13px; font-weight: 700; letter-spacing: 2px; color: var(--text); text-transform: uppercase; }
   .topbar-logo span { color: var(--accent); }
   .topbar-nav { display: flex; gap: 4px; }
-  .nav-btn {
-    padding: 6px 12px; font-size: 12px; font-weight: 500; font-family: var(--ff);
-    border: 1px solid transparent; border-radius: 8px; background: transparent;
-    color: var(--text2); cursor: pointer; transition: all .15s;
-  }
+  .nav-btn { padding: 6px 12px; font-size: 12px; font-weight: 500; font-family: var(--ff); border: 1px solid transparent; border-radius: 8px; background: transparent; color: var(--text2); cursor: pointer; transition: all .15s; }
   .nav-btn.active { background: var(--bg3); border-color: var(--border2); color: var(--text); }
-  .nav-btn:active { transform: scale(0.97); }
-
-  /* ─── PAGES ─── */
   .page { display: none; padding: 16px; animation: fadeIn .2s ease; }
   .page.active { display: block; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
-
-  /* ─── FEEDER VIEW (NFC landing) ─── */
   .nfc-view { max-width: 480px; margin: 0 auto; }
-
-  .status-hero {
-    border-radius: var(--r);
-    padding: 20px;
-    margin-bottom: 16px;
-    border: 1px solid;
-    animation: slideUp .3s ease;
-  }
+  .status-hero { border-radius: var(--r); padding: 20px; margin-bottom: 16px; border: 1px solid; animation: slideUp .3s ease; }
   @keyframes slideUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
-  .status-hero.ok  { background: var(--ok-bg);   border-color: var(--ok-bd); }
-  .status-hero.warn{ background: var(--warn-bg); border-color: var(--warn-bd); }
-  .status-hero.err { background: var(--err-bg);  border-color: var(--err-bd); }
-
+  .status-hero.ok { background: var(--ok-bg); border-color: var(--ok-bd); }
+  .status-hero.warn { background: var(--warn-bg); border-color: var(--warn-bd); }
+  .status-hero.err { background: var(--err-bg); border-color: var(--err-bd); }
   .hero-top { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-  .hero-dot {
-    width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
-    animation: pulse 2s infinite;
-  }
-  .ok .hero-dot  { background: var(--ok); box-shadow: 0 0 0 0 rgba(34,197,94,.4); }
-  .warn .hero-dot{ background: var(--warn); box-shadow: 0 0 0 0 rgba(245,158,11,.4); }
-  .err .hero-dot { background: var(--err); box-shadow: 0 0 0 0 rgba(239,68,68,.4); }
-  @keyframes pulse {
-    0%,100% { box-shadow: 0 0 0 0 currentColor; opacity:1; }
-    50% { box-shadow: 0 0 0 6px transparent; }
-  }
+  .hero-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; animation: pulse 2s infinite; }
+  .ok .hero-dot { background: var(--ok); } .warn .hero-dot { background: var(--warn); } .err .hero-dot { background: var(--err); }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
   .hero-status-label { font-size: 13px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; }
-  .ok  .hero-status-label { color: var(--ok); }
-  .warn .hero-status-label { color: var(--warn); }
-  .err  .hero-status-label { color: var(--err); }
-
+  .ok .hero-status-label { color: var(--ok); } .warn .hero-status-label { color: var(--warn); } .err .hero-status-label { color: var(--err); }
   .hero-id { font-family: var(--fm); font-size: 28px; font-weight: 700; color: var(--text); letter-spacing: 1px; line-height: 1; }
   .hero-machine { font-size: 13px; color: var(--text2); margin-top: 4px; }
-
-  .info-card {
-    background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r);
-    padding: 16px; margin-bottom: 12px;
-  }
+  .info-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 16px; margin-bottom: 12px; }
   .info-row { display: flex; align-items: flex-start; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); }
   .info-row:last-child { border-bottom: none; padding-bottom: 0; }
   .info-label { font-size: 11px; font-weight: 600; letter-spacing: .8px; text-transform: uppercase; color: var(--text3); min-width: 80px; padding-top: 1px; }
   .info-value { font-size: 14px; color: var(--text); flex: 1; line-height: 1.4; }
   .info-value.mono { font-family: var(--fm); font-size: 13px; }
-
-  .desc-card {
-    background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r);
-    padding: 16px; margin-bottom: 12px;
-  }
+  .desc-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 16px; margin-bottom: 12px; }
   .desc-ttl { font-size: 11px; font-weight: 600; letter-spacing: .8px; text-transform: uppercase; color: var(--text3); margin-bottom: 8px; }
   .desc-body { font-size: 14px; color: var(--text2); line-height: 1.6; }
-
   .ts-footer { font-family: var(--fm); font-size: 11px; color: var(--text3); text-align: right; padding: 4px 0; }
-
-  .not-found {
-    text-align: center; padding: 60px 24px;
-  }
+  .not-found { text-align: center; padding: 60px 24px; }
   .not-found .nf-code { font-family: var(--fm); font-size: 48px; font-weight: 700; color: var(--border2); margin-bottom: 12px; }
   .not-found p { font-size: 14px; color: var(--text2); }
-
-  /* ─── ADMIN ─── */
   .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
   .section-title { font-size: 15px; font-weight: 600; }
-
-  .btn-primary {
-    padding: 8px 16px; font-size: 13px; font-weight: 600; font-family: var(--ff);
-    background: var(--accent); color: #fff; border: none; border-radius: 8px; cursor: pointer;
-    transition: opacity .15s, transform .1s;
-  }
-  .btn-primary:active { opacity: .85; transform: scale(0.97); }
-
-  .search-bar {
-    display: flex; align-items: center; gap: 8px;
-    background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
-    padding: 0 12px; margin-bottom: 14px;
-  }
-  .search-bar input {
-    flex: 1; background: none; border: none; outline: none; padding: 10px 0;
-    font-size: 14px; font-family: var(--ff); color: var(--text);
-  }
+  .btn-primary { padding: 8px 16px; font-size: 13px; font-weight: 600; font-family: var(--ff); background: var(--accent); color: #fff; border: none; border-radius: 8px; cursor: pointer; }
+  .search-bar { display: flex; align-items: center; gap: 8px; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 0 12px; margin-bottom: 14px; }
+  .search-bar input { flex: 1; background: none; border: none; outline: none; padding: 10px 0; font-size: 14px; font-family: var(--ff); color: var(--text); }
   .search-bar input::placeholder { color: var(--text3); }
-  .search-ico { color: var(--text3); font-size: 16px; }
-
   .stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
   .stat-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center; }
   .stat-num { font-size: 24px; font-weight: 600; font-family: var(--fm); }
-  .stat-num.ok { color: var(--ok); }
-  .stat-num.warn { color: var(--warn); }
-  .stat-num.err { color: var(--err); }
+  .stat-num.ok { color: var(--ok); } .stat-num.warn { color: var(--warn); } .stat-num.err { color: var(--err); }
   .stat-lbl { font-size: 10px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase; color: var(--text3); margin-top: 2px; }
-
   .feeder-list { display: flex; flex-direction: column; gap: 8px; }
-  .feeder-item {
-    background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r);
-    padding: 14px 16px; display: flex; align-items: center; gap: 12px;
-    cursor: pointer; transition: border-color .15s, background .15s;
-    -webkit-tap-highlight-color: transparent;
-  }
+  .feeder-item { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 14px 16px; display: flex; align-items: center; gap: 12px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
   .feeder-item:active { background: var(--bg3); }
   .fi-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .fi-dot.ok { background: var(--ok); }
-  .fi-dot.warn { background: var(--warn); }
-  .fi-dot.err { background: var(--err); }
+  .fi-dot.ok { background: var(--ok); } .fi-dot.warn { background: var(--warn); } .fi-dot.err { background: var(--err); }
   .fi-info { flex: 1; min-width: 0; }
   .fi-id { font-family: var(--fm); font-size: 14px; font-weight: 600; color: var(--text); }
   .fi-machine { font-size: 12px; color: var(--text2); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .fi-badge { font-size: 10px; font-weight: 600; letter-spacing: .4px; padding: 3px 8px; border-radius: 20px; flex-shrink: 0; }
-  .fi-badge.ok   { background: var(--ok-bg);   color: var(--ok); }
-  .fi-badge.warn { background: var(--warn-bg); color: var(--warn); }
-  .fi-badge.err  { background: var(--err-bg);  color: var(--err); }
+  .fi-badge { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 20px; flex-shrink: 0; }
+  .fi-badge.ok { background: var(--ok-bg); color: var(--ok); } .fi-badge.warn { background: var(--warn-bg); color: var(--warn); } .fi-badge.err { background: var(--err-bg); color: var(--err); }
   .fi-arrow { color: var(--text3); font-size: 18px; }
   .list-empty { text-align: center; padding: 40px 0; font-size: 14px; color: var(--text3); }
-
-  /* ─── MODAL / FORM ─── */
-  .modal-overlay {
-    position: fixed; inset: 0; z-index: 200;
-    background: rgba(0,0,0,.7);
-    display: flex; align-items: flex-end;
-    opacity: 0; pointer-events: none; transition: opacity .2s;
-  }
+  .modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,.7); display: flex; align-items: flex-end; opacity: 0; pointer-events: none; transition: opacity .2s; }
   .modal-overlay.open { opacity: 1; pointer-events: all; }
-  .modal {
-    width: 100%; max-height: 90vh; overflow-y: auto;
-    background: var(--bg2);
-    border-radius: 20px 20px 0 0;
-    border-top: 1px solid var(--border2);
-    padding: 20px 20px 40px;
-    transform: translateY(20px); transition: transform .25s cubic-bezier(.34,1.56,.64,1);
-  }
+  .modal { width: 100%; max-height: 90vh; overflow-y: auto; background: var(--bg2); border-radius: 20px 20px 0 0; border-top: 1px solid var(--border2); padding: 20px 20px 40px; transform: translateY(20px); transition: transform .25s cubic-bezier(.34,1.56,.64,1); }
   .modal-overlay.open .modal { transform: translateY(0); }
   .modal-handle { width: 36px; height: 4px; background: var(--border2); border-radius: 2px; margin: 0 auto 20px; }
   .modal-title { font-size: 17px; font-weight: 600; margin-bottom: 20px; }
   .form-field { margin-bottom: 14px; }
   .form-field label { display: block; font-size: 11px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase; color: var(--text3); margin-bottom: 6px; }
-  .form-field input, .form-field select, .form-field textarea {
-    width: 100%; padding: 11px 14px; font-size: 14px; font-family: var(--ff);
-    background: var(--bg3); border: 1px solid var(--border); border-radius: 10px;
-    color: var(--text); outline: none; transition: border-color .15s;
-  }
+  .form-field input, .form-field select, .form-field textarea { width: 100%; padding: 11px 14px; font-size: 14px; font-family: var(--ff); background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; color: var(--text); outline: none; transition: border-color .15s; }
   .form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: var(--accent); }
   .form-field textarea { resize: vertical; min-height: 80px; }
   .form-field select option { background: var(--bg3); }
@@ -203,123 +97,56 @@
   .btn-save { flex: 1; padding: 12px; font-size: 14px; font-weight: 600; font-family: var(--ff); background: var(--accent); color: #fff; border: none; border-radius: 10px; cursor: pointer; }
   .btn-cancel { padding: 12px 16px; font-size: 14px; font-family: var(--ff); background: var(--bg3); color: var(--text2); border: 1px solid var(--border); border-radius: 10px; cursor: pointer; }
   .btn-delete { padding: 12px 16px; font-size: 14px; font-family: var(--ff); background: var(--err-bg); color: var(--err); border: 1px solid var(--err-bd); border-radius: 10px; cursor: pointer; }
-
-  /* ─── NFC GUIDE ─── */
-  .guide-step { display: flex; gap: 14px; margin-bottom: 20px; }
-  .step-num {
-    width: 28px; height: 28px; border-radius: 50%;
-    background: var(--accent); color: #fff;
-    font-size: 12px; font-weight: 700; font-family: var(--fm);
-    display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;
-  }
-  .step-body { flex: 1; }
-  .step-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
-  .step-text { font-size: 13px; color: var(--text2); line-height: 1.6; }
-  .code-pill {
-    display: inline-block; font-family: var(--fm); font-size: 11px;
-    background: var(--bg3); border: 1px solid var(--border); border-radius: 6px;
-    padding: 4px 8px; color: var(--accent); margin-top: 6px; word-break: break-all;
-  }
-  .guide-divider { height: 1px; background: var(--border); margin: 20px 0; }
-  .tip-box {
-    background: rgba(59,130,246,.08); border: 1px solid rgba(59,130,246,.2);
-    border-radius: var(--r); padding: 14px 16px;
-  }
-  .tip-box .tip-ttl { font-size: 12px; font-weight: 700; color: var(--accent); letter-spacing: .5px; text-transform: uppercase; margin-bottom: 6px; }
-  .tip-box p { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .loader { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px; gap: 12px; }
+  .spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loader-text { font-size: 13px; color: var(--text3); }
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--bg2); border: 1px solid var(--border2); border-radius: 10px; padding: 10px 18px; font-size: 13px; color: var(--text); z-index: 999; transition: transform .3s cubic-bezier(.34,1.56,.64,1); white-space: nowrap; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.ok-toast { border-color: var(--ok-bd); color: var(--ok); }
+  .toast.err-toast { border-color: var(--err-bd); color: var(--err); }
+  .sync-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text3); padding: 3px 8px; border-radius: 20px; border: 1px solid var(--border); }
+  .sync-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--warn); }
 </style>
 </head>
 <body>
 
 <div class="topbar">
   <div class="topbar-logo">SMT<span>·</span>Feeders</div>
-  <div class="topbar-nav">
-    <button class="nav-btn active" onclick="goPage('scan')">Scan</button>
-    <button class="nav-btn" onclick="goPage('admin')">Admin</button>
-    <button class="nav-btn" onclick="goPage('guide')">NFC</button>
+  <div style="display:flex;align-items:center;gap:8px">
+    <div class="sync-badge"><div class="sync-dot" id="sync-dot"></div><span id="sync-label">Conectando...</span></div>
+    <div class="topbar-nav">
+      <button class="nav-btn active" onclick="goPage('scan',this)">Scan</button>
+      <button class="nav-btn" onclick="goPage('admin',this)">Admin</button>
+    </div>
   </div>
 </div>
 
-<!-- ══════════════════ PAGE: SCAN (NFC landing) ══════════════════ -->
 <div id="page-scan" class="page active">
   <div class="nfc-view" id="nfc-content">
-    <!-- Populated by JS based on ?feeder= param -->
+    <div class="loader"><div class="spinner"></div><div class="loader-text">Cargando...</div></div>
   </div>
 </div>
 
-<!-- ══════════════════ PAGE: ADMIN ══════════════════ -->
 <div id="page-admin" class="page">
-  <div class="stats-row" id="stats-row"></div>
+  <div class="stats-row" id="stats-row">
+    <div class="stat-card"><div class="stat-num ok">—</div><div class="stat-lbl">Funcional</div></div>
+    <div class="stat-card"><div class="stat-num warn">—</div><div class="stat-lbl">Mant.</div></div>
+    <div class="stat-card"><div class="stat-num err">—</div><div class="stat-lbl">No Func.</div></div>
+  </div>
   <div class="section-header">
     <span class="section-title">Feeders</span>
     <button class="btn-primary" onclick="openForm(null)">+ Agregar</button>
   </div>
   <div class="search-bar">
-    <span class="search-ico">⌕</span>
-    <input type="text" id="search-input" placeholder="Buscar por ID o máquina…" oninput="renderAdmin()">
+    <span style="color:var(--text3);font-size:16px">⌕</span>
+    <input type="text" id="search-input" placeholder="Buscar por ID o máquina…" oninput="renderList()">
   </div>
-  <div class="feeder-list" id="feeder-list"></div>
-</div>
-
-<!-- ══════════════════ PAGE: GUIDE ══════════════════ -->
-<div id="page-guide" class="page">
-  <div style="max-width:480px;margin:0 auto;">
-    <div style="margin-bottom:24px;">
-      <div style="font-size:22px;font-weight:700;margin-bottom:6px;">Cómo usar etiquetas NFC</div>
-      <div style="font-size:14px;color:var(--text2);line-height:1.6;">Configura las etiquetas físicas para que al escanearlas abran automáticamente la información del feeder.</div>
-    </div>
-
-    <div class="guide-step">
-      <div class="step-num">1</div>
-      <div class="step-body">
-        <div class="step-title">Registra el feeder</div>
-        <div class="step-text">Ve a la pestaña <strong>Admin</strong>, presiona <strong>+ Agregar</strong> e ingresa el ID del feeder, la máquina, el estado y una descripción de la falla si aplica.</div>
-      </div>
-    </div>
-
-    <div class="guide-step">
-      <div class="step-num">2</div>
-      <div class="step-body">
-        <div class="step-title">Obtén la URL del feeder</div>
-        <div class="step-text">Cada feeder tiene una URL única. La URL que debes programar en la etiqueta tiene este formato:</div>
-        <div class="code-pill" id="guide-url-sample">https://tu-sitio.com/feeders.html?feeder=T01F03E31</div>
-      </div>
-    </div>
-
-    <div class="guide-step">
-      <div class="step-num">3</div>
-      <div class="step-body">
-        <div class="step-title">Programa la etiqueta NFC</div>
-        <div class="step-text">Descarga <strong>NFC Tools</strong> (Android/iOS) o <strong>TagWriter by NXP</strong>. Selecciona <em>Escribir → URI</em> y pega la URL del feeder. Etiquetas recomendadas: NTAG213, NTAG215, NTAG216.</div>
-      </div>
-    </div>
-
-    <div class="guide-step">
-      <div class="step-num">4</div>
-      <div class="step-body">
-        <div class="step-title">Pega la etiqueta en el feeder</div>
-        <div class="step-text">Colócala en un lugar visible. Al acercar el teléfono, el navegador abrirá automáticamente esta página con el estado del feeder.</div>
-      </div>
-    </div>
-
-    <div class="guide-step">
-      <div class="step-num">5</div>
-      <div class="step-body">
-        <div class="step-title">Actualiza el estado cuando sea necesario</div>
-        <div class="step-text">Desde Admin puedes editar el estado y descripción en cualquier momento. <strong>La etiqueta NFC no necesita reprogramarse</strong> — siempre apunta a la misma URL.</div>
-      </div>
-    </div>
-
-    <div class="guide-divider"></div>
-
-    <div class="tip-box">
-      <div class="tip-ttl">Para producción</div>
-      <p>Hospeda este archivo HTML en <strong>GitHub Pages</strong>, <strong>Netlify</strong> o <strong>Vercel</strong> (todos gratuitos). Esto te da una URL fija y permanente para todas tus etiquetas NFC. Los datos se guardan en el teléfono donde se editan (localStorage). Para datos compartidos entre varios teléfonos, considera agregar Supabase como backend.</p>
-    </div>
+  <div class="feeder-list" id="feeder-list">
+    <div class="loader"><div class="spinner"></div><div class="loader-text">Cargando feeders...</div></div>
   </div>
 </div>
 
-<!-- ══════════════════ MODAL FORM ══════════════════ -->
 <div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -352,238 +179,182 @@
   </div>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
-// ══════════════════════════════════════════════
-//  DATA
-// ══════════════════════════════════════════════
-const KEY = 'smt_feeders_v2';
+const SUPA_URL = 'https://gswgpbkdwdagohryemdm.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdzd2dwYmtkd2RhZ29ocnllbWRtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3OTczNTAsImV4cCI6MjA5MjM3MzM1MH0.8dZqZjizopP1XGW4Gu3a16uYzjlnE-dIi-M-YsxsmSo';
+const HEADERS  = { 'Content-Type': 'application/json', 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY };
+const API      = SUPA_URL + '/rest/v1/feeders';
+
 const STATUS = {
-  ok:   { label: 'Funcional',      cls: 'ok'   },
-  warn: { label: 'Mantenimiento',  cls: 'warn' },
-  err:  { label: 'No Funcional',   cls: 'err'  },
+  ok:   { label: 'Funcional',     cls: 'ok'   },
+  warn: { label: 'Mantenimiento', cls: 'warn' },
+  err:  { label: 'No Funcional',  cls: 'err'  },
 };
 
-function load() {
-  try { return JSON.parse(localStorage.getItem(KEY)) || defaults(); }
-  catch(e) { return defaults(); }
-}
-function save(d) { localStorage.setItem(KEY, JSON.stringify(d)); }
-
-function defaults() {
-  return [
-    { id:'T01F03E31', machine:'SMT-01 — Línea A', status:'err',  desc:'Motor 1 dañado. Requiere reemplazo del componente antes de volver a operar.',       updated:'2025-04-18 08:42' },
-    { id:'T01F03E14', machine:'SMT-01 — Línea A', status:'ok',   desc:'Operando correctamente. Última revisión completada.',                                updated:'2025-04-20 14:00' },
-    { id:'T02F01E07', machine:'SMT-02 — Línea B', status:'warn', desc:'Falla intermitente en sensor de cinta. Programar mantenimiento preventivo.',         updated:'2025-04-19 11:30' },
-    { id:'T02F02E22', machine:'SMT-02 — Línea B', status:'err',  desc:'Feeder atascado. Rodillo de avance roto. Fuera de servicio hasta reparación.',       updated:'2025-04-17 16:15' },
-    { id:'T03F01E05', machine:'SMT-03 — Línea C', status:'ok',   desc:'Revisado y lubricado. Funcionamiento dentro de parámetros normales.',                updated:'2025-04-20 09:00' },
-  ];
-}
-
-let feeders = load();
+let feeders = [];
 let editingId = null;
 
-// ══════════════════════════════════════════════
-//  NAV
-// ══════════════════════════════════════════════
-function goPage(name) {
+async function dbFetch() {
+  const r = await fetch(API + '?order=id', { headers: HEADERS });
+  if (!r.ok) throw new Error('Error');
+  return r.json();
+}
+async function dbUpsert(row) {
+  const r = await fetch(API, { method: 'POST', headers: { ...HEADERS, 'Prefer': 'resolution=merge-duplicates' }, body: JSON.stringify(row) });
+  if (!r.ok) throw new Error('Error');
+}
+async function dbDelete(id) {
+  const r = await fetch(API + '?id=eq.' + encodeURIComponent(id), { method: 'DELETE', headers: HEADERS });
+  if (!r.ok) throw new Error('Error');
+}
+
+function setSyncStatus(ok, label) {
+  document.getElementById('sync-dot').style.background = ok ? 'var(--ok)' : 'var(--err)';
+  document.getElementById('sync-label').textContent = label;
+}
+
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + (type==='ok'?'ok-toast':type==='err'?'err-toast':'') + ' show';
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function goPage(name, btn) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('page-' + name).classList.add('active');
-  event.currentTarget.classList.add('active');
-  if (name === 'scan')  renderScan();
-  if (name === 'admin') renderAdmin();
-  if (name === 'guide') renderGuide();
+  if (btn) btn.classList.add('active');
+  if (name === 'admin') loadAndRender();
 }
 
-// ══════════════════════════════════════════════
-//  SCAN PAGE
-// ══════════════════════════════════════════════
-function renderScan() {
+async function renderScan() {
   const params = new URLSearchParams(window.location.search);
   const fid = params.get('feeder');
   const el = document.getElementById('nfc-content');
 
   if (!fid) {
-    // Default landing — no NFC param
+    try { feeders = await dbFetch(); setSyncStatus(true, 'En línea'); } catch(e) { setSyncStatus(false, 'Sin conexión'); }
     el.innerHTML = `
       <div style="text-align:center;padding:48px 0;">
         <div style="font-size:52px;margin-bottom:16px;">📡</div>
         <div style="font-size:18px;font-weight:600;margin-bottom:8px;">Escanea una etiqueta NFC</div>
-        <div style="font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:24px;">Acerca tu teléfono a la etiqueta del feeder para ver su estado.</div>
-        <div style="font-size:12px;color:var(--text3);">O selecciona un feeder de demostración:</div>
-        <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px;">
-          ${feeders.slice(0,3).map(f => `
-            <button onclick="simFeeder('${f.id}')" style="padding:10px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:var(--fm);font-size:13px;cursor:pointer;text-align:left;">
-              ${f.id} <span style="color:var(--text2);font-size:11px;font-family:var(--ff)">— ${STATUS[f.status].label}</span>
-            </button>`).join('')}
-        </div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.6;">Acerca tu teléfono a la etiqueta del feeder para ver su estado.</div>
+        ${feeders.length ? `<div style="margin-top:16px;font-size:12px;color:var(--text3)">${feeders.length} feeders registrados en el sistema</div>` : ''}
       </div>`;
     return;
   }
 
-  const f = feeders.find(x => x.id.toUpperCase() === fid.toUpperCase());
-  if (!f) {
-    el.innerHTML = `<div class="not-found"><div class="nf-code">404</div><p>Feeder <strong>${fid}</strong> no encontrado en el sistema.</p></div>`;
-    return;
+  try {
+    const r = await fetch(API + '?id=eq.' + encodeURIComponent(fid.toUpperCase()), { headers: HEADERS });
+    const data = await r.json();
+    setSyncStatus(true, 'En línea');
+    if (!data.length) {
+      el.innerHTML = `<div class="not-found"><div class="nf-code">404</div><p>Feeder <strong>${fid}</strong> no encontrado en el sistema.</p></div>`;
+      return;
+    }
+    const f = data[0];
+    const s = STATUS[f.status] || STATUS.err;
+    el.innerHTML = `
+      <div class="status-hero ${s.cls}">
+        <div class="hero-top"><div class="hero-dot"></div><div class="hero-status-label">${s.label}</div></div>
+        <div class="hero-id">${f.id}</div>
+        <div class="hero-machine">${f.machine}</div>
+      </div>
+      <div class="info-card">
+        <div class="info-row"><span class="info-label">Feeder</span><span class="info-value mono">${f.id}</span></div>
+        <div class="info-row"><span class="info-label">Estado</span><span class="info-value" style="color:var(--${s.cls})">${s.label}</span></div>
+        <div class="info-row"><span class="info-label">Máquina</span><span class="info-value">${f.machine}</span></div>
+      </div>
+      ${f.description ? `<div class="desc-card"><div class="desc-ttl">Descripción</div><div class="desc-body">${f.description}</div></div>` : ''}
+      <div class="ts-footer">Actualizado: ${f.updated || '—'}</div>`;
+  } catch(e) {
+    setSyncStatus(false, 'Sin conexión');
+    el.innerHTML = `<div class="not-found"><div class="nf-code" style="font-size:32px">Sin conexión</div><p>Verifica tu internet e intenta de nuevo.</p></div>`;
   }
-
-  const s = STATUS[f.status];
-  el.innerHTML = `
-    <div class="status-hero ${s.cls}">
-      <div class="hero-top">
-        <div class="hero-dot"></div>
-        <div class="hero-status-label">${s.label}</div>
-      </div>
-      <div class="hero-id">${f.id}</div>
-      <div class="hero-machine">${f.machine}</div>
-    </div>
-    <div class="info-card">
-      <div class="info-row">
-        <span class="info-label">Feeder</span>
-        <span class="info-value mono">${f.id}</span>
-      </div>
-      <div class="info-row">
-        <span class="info-label">Estado</span>
-        <span class="info-value" style="color:var(--${s.cls})">${s.label}</span>
-      </div>
-      <div class="info-row">
-        <span class="info-label">Máquina</span>
-        <span class="info-value">${f.machine}</span>
-      </div>
-    </div>
-    ${f.desc ? `
-    <div class="desc-card">
-      <div class="desc-ttl">Descripción</div>
-      <div class="desc-body">${f.desc}</div>
-    </div>` : ''}
-    <div class="ts-footer">Actualizado: ${f.updated || '—'}</div>`;
 }
 
-function simFeeder(id) {
-  const url = new URL(window.location.href);
-  url.searchParams.set('feeder', id);
-  window.history.pushState({}, '', url);
-  renderScan();
+async function loadAndRender() {
+  try {
+    feeders = await dbFetch();
+    setSyncStatus(true, 'En línea');
+    renderList();
+  } catch(e) {
+    setSyncStatus(false, 'Sin conexión');
+    document.getElementById('feeder-list').innerHTML = '<div class="list-empty">Error de conexión.</div>';
+  }
 }
 
-// ══════════════════════════════════════════════
-//  ADMIN PAGE
-// ══════════════════════════════════════════════
-function renderAdmin() {
+function renderList() {
   const q = (document.getElementById('search-input')?.value || '').toLowerCase();
-  const filtered = feeders.filter(f =>
-    f.id.toLowerCase().includes(q) || f.machine.toLowerCase().includes(q)
-  );
-
-  // Stats
-  const ok   = feeders.filter(f => f.status === 'ok').length;
-  const warn = feeders.filter(f => f.status === 'warn').length;
-  const err  = feeders.filter(f => f.status === 'err').length;
+  const filtered = feeders.filter(f => f.id.toLowerCase().includes(q) || f.machine.toLowerCase().includes(q));
+  const ok   = feeders.filter(f => f.status==='ok').length;
+  const warn = feeders.filter(f => f.status==='warn').length;
+  const err  = feeders.filter(f => f.status==='err').length;
   document.getElementById('stats-row').innerHTML = `
     <div class="stat-card"><div class="stat-num ok">${ok}</div><div class="stat-lbl">Funcional</div></div>
     <div class="stat-card"><div class="stat-num warn">${warn}</div><div class="stat-lbl">Mant.</div></div>
     <div class="stat-card"><div class="stat-num err">${err}</div><div class="stat-lbl">No Func.</div></div>`;
-
-  // List
   const el = document.getElementById('feeder-list');
-  if (!filtered.length) {
-    el.innerHTML = '<div class="list-empty">Sin resultados</div>';
-    return;
-  }
+  if (!filtered.length) { el.innerHTML = '<div class="list-empty">Sin resultados</div>'; return; }
   el.innerHTML = filtered.map(f => `
     <div class="feeder-item" onclick="openForm('${f.id}')">
       <div class="fi-dot ${f.status}"></div>
-      <div class="fi-info">
-        <div class="fi-id">${f.id}</div>
-        <div class="fi-machine">${f.machine}</div>
-      </div>
-      <span class="fi-badge ${f.status}">${STATUS[f.status].label}</span>
+      <div class="fi-info"><div class="fi-id">${f.id}</div><div class="fi-machine">${f.machine}</div></div>
+      <span class="fi-badge ${f.status}">${STATUS[f.status]?.label||f.status}</span>
       <span class="fi-arrow">›</span>
     </div>`).join('');
 }
 
-// ══════════════════════════════════════════════
-//  MODAL / FORM
-// ══════════════════════════════════════════════
 function openForm(id) {
   editingId = id;
   const isEdit = id !== null;
-  const f = isEdit ? feeders.find(x => x.id === id) : { id:'', machine:'', status:'ok', desc:'' };
-
+  const f = isEdit ? feeders.find(x => x.id === id) : { id:'', machine:'', status:'ok', description:'' };
   document.getElementById('modal-title').textContent = isEdit ? 'Editar Feeder' : 'Nuevo Feeder';
-  document.getElementById('f-id').value = f.id;
+  document.getElementById('f-id').value = f?.id || '';
   document.getElementById('f-id').readOnly = isEdit;
-  document.getElementById('f-machine').value = f.machine;
-  document.getElementById('f-status').value = f.status;
-  document.getElementById('f-desc').value = f.desc;
+  document.getElementById('f-machine').value = f?.machine || '';
+  document.getElementById('f-status').value = f?.status || 'ok';
+  document.getElementById('f-desc').value = f?.description || '';
   document.getElementById('btn-delete').style.display = isEdit ? 'block' : 'none';
-
   document.getElementById('modal-overlay').classList.add('open');
-  setTimeout(() => document.getElementById('f-id').focus(), 300);
 }
 
-function closeModal() {
-  document.getElementById('modal-overlay').classList.remove('open');
-}
+function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
+function handleOverlayClick(e) { if (e.target === document.getElementById('modal-overlay')) closeModal(); }
 
-function handleOverlayClick(e) {
-  if (e.target === document.getElementById('modal-overlay')) closeModal();
-}
-
-function saveFeeder() {
-  const id      = document.getElementById('f-id').value.trim().toUpperCase();
+async function saveFeeder() {
+  const id = document.getElementById('f-id').value.trim().toUpperCase();
   const machine = document.getElementById('f-machine').value.trim();
-  const status  = document.getElementById('f-status').value;
-  const desc    = document.getElementById('f-desc').value.trim();
-
-  if (!id || !machine) { alert('El ID y la Máquina son obligatorios.'); return; }
-
-  const now     = new Date();
+  const status = document.getElementById('f-status').value;
+  const description = document.getElementById('f-desc').value.trim();
+  if (!id || !machine) { showToast('ID y Máquina son obligatorios', 'err'); return; }
+  const now = new Date();
   const updated = now.toISOString().slice(0,10) + ' ' + now.toTimeString().slice(0,5);
-
-  if (editingId) {
-    const i = feeders.findIndex(f => f.id === editingId);
-    feeders[i] = { id, machine, status, desc, updated };
-  } else {
-    if (feeders.find(f => f.id === id)) { alert('Ya existe un feeder con ese ID.'); return; }
-    feeders.push({ id, machine, status, desc, updated });
-  }
-
-  save(feeders);
-  closeModal();
-  renderAdmin();
+  const btn = document.querySelector('.btn-save');
+  btn.textContent = 'Guardando...'; btn.disabled = true;
+  try {
+    await dbUpsert({ id, machine, status, description, updated });
+    showToast('✓ Guardado correctamente', 'ok');
+    closeModal();
+    await loadAndRender();
+  } catch(e) { showToast('Error al guardar', 'err'); }
+  finally { btn.textContent = 'Guardar'; btn.disabled = false; }
 }
 
-function deleteFeeder() {
-  if (!confirm(`¿Eliminar feeder ${editingId}?`)) return;
-  feeders = feeders.filter(f => f.id !== editingId);
-  save(feeders);
-  closeModal();
-  renderAdmin();
+async function deleteFeeder() {
+  if (!confirm('¿Eliminar feeder ' + editingId + '?')) return;
+  try {
+    await dbDelete(editingId);
+    showToast('Feeder eliminado', 'ok');
+    closeModal();
+    await loadAndRender();
+  } catch(e) { showToast('Error al eliminar', 'err'); }
 }
 
-// ══════════════════════════════════════════════
-//  GUIDE
-// ══════════════════════════════════════════════
-function renderGuide() {
-  const sample = window.location.origin + window.location.pathname + '?feeder=T01F03E31';
-  const el = document.getElementById('guide-url-sample');
-  if (el) el.textContent = sample;
-}
-
-// ══════════════════════════════════════════════
-//  INIT
-// ══════════════════════════════════════════════
-(function init() {
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('feeder')) {
-    // Came from NFC scan — show scan page
-    renderScan();
-  } else {
-    renderScan();
-    renderAdmin();
-  }
-})();
+renderScan();
 </script>
 </body>
 </html>
