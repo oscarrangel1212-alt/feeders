@@ -9,157 +9,174 @@
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --ff: 'Barlow', sans-serif;
-    --fm: 'JetBrains Mono', monospace;
+    --ff: 'Barlow', sans-serif; --fm: 'JetBrains Mono', monospace;
     --ok: #22c55e; --ok-bg: rgba(34,197,94,0.12); --ok-bd: rgba(34,197,94,0.25);
     --warn: #f59e0b; --warn-bg: rgba(245,158,11,0.12); --warn-bd: rgba(245,158,11,0.25);
     --err: #ef4444; --err-bg: rgba(239,68,68,0.12); --err-bd: rgba(239,68,68,0.25);
     --accent: #3b82f6; --r: 12px;
-    --transition: background .2s, color .2s, border-color .2s;
   }
-
   [data-theme="dark"] {
-    --bg:   #0f0f0f; --bg2: #1a1a1a; --bg3: #222;
-    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.14);
-    --text: #f0f0f0; --text2: #999; --text3: #555;
-    --topbar-bg: rgba(15,15,15,0.92);
-    --shadow: none;
+    --bg:#0f0f0f; --bg2:#1a1a1a; --bg3:#222;
+    --border:rgba(255,255,255,0.08); --border2:rgba(255,255,255,0.14);
+    --text:#f0f0f0; --text2:#999; --text3:#555;
+    --topbar-bg:rgba(15,15,15,0.92); --shadow:none;
   }
   [data-theme="light"] {
-    --bg:   #f5f5f5; --bg2: #ffffff; --bg3: #f0f0f0;
-    --border: rgba(0,0,0,0.08); --border2: rgba(0,0,0,0.14);
-    --text: #111; --text2: #555; --text3: #aaa;
-    --topbar-bg: rgba(245,245,245,0.92);
-    --shadow: 0 1px 3px rgba(0,0,0,0.06);
-    --ok-bg: rgba(34,197,94,0.10); --ok-bd: rgba(34,197,94,0.3);
-    --warn-bg: rgba(245,158,11,0.10); --warn-bd: rgba(245,158,11,0.3);
-    --err-bg: rgba(239,68,68,0.10); --err-bd: rgba(239,68,68,0.3);
+    --bg:#f5f5f5; --bg2:#ffffff; --bg3:#f0f0f0;
+    --border:rgba(0,0,0,0.08); --border2:rgba(0,0,0,0.14);
+    --text:#111; --text2:#555; --text3:#aaa;
+    --topbar-bg:rgba(245,245,245,0.92); --shadow:0 1px 3px rgba(0,0,0,0.06);
+    --ok-bg:rgba(34,197,94,0.10); --ok-bd:rgba(34,197,94,0.3);
+    --warn-bg:rgba(245,158,11,0.10); --warn-bd:rgba(245,158,11,0.3);
+    --err-bg:rgba(239,68,68,0.10); --err-bd:rgba(239,68,68,0.3);
   }
+  html { background:var(--bg); color:var(--text); font-family:var(--ff); min-height:100%; transition:background .2s,color .2s; }
+  body { min-height:100vh; }
 
-  html { background: var(--bg); color: var(--text); font-family: var(--ff); min-height: 100%; transition: var(--transition); }
-  body { min-height: 100vh; }
+  .topbar { position:sticky; top:0; z-index:100; background:var(--topbar-bg); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); padding:0 16px; display:flex; align-items:center; justify-content:space-between; height:52px; }
+  .topbar-logo { font-family:var(--fm); font-size:13px; font-weight:700; letter-spacing:2px; color:var(--text); text-transform:uppercase; }
+  .topbar-logo span { color:var(--accent); }
+  .topbar-right { display:flex; align-items:center; gap:8px; }
+  .topbar-nav { display:flex; gap:4px; }
+  .nav-btn { padding:6px 12px; font-size:12px; font-weight:500; font-family:var(--ff); border:1px solid transparent; border-radius:8px; background:transparent; color:var(--text2); cursor:pointer; transition:all .15s; }
+  .nav-btn.active { background:var(--bg3); border-color:var(--border2); color:var(--text); }
+  .theme-btn { width:32px; height:32px; border-radius:8px; border:1px solid var(--border2); background:var(--bg3); color:var(--text2); font-size:15px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all .15s; flex-shrink:0; }
 
-  .topbar {
-    position: sticky; top: 0; z-index: 100;
-    background: var(--topbar-bg); backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 16px; display: flex; align-items: center; justify-content: space-between; height: 52px;
-    transition: var(--transition);
-  }
-  .topbar-logo { font-family: var(--fm); font-size: 13px; font-weight: 700; letter-spacing: 2px; color: var(--text); text-transform: uppercase; }
-  .topbar-logo span { color: var(--accent); }
-  .topbar-right { display: flex; align-items: center; gap: 8px; }
-  .topbar-nav { display: flex; gap: 4px; }
-  .nav-btn { padding: 6px 12px; font-size: 12px; font-weight: 500; font-family: var(--ff); border: 1px solid transparent; border-radius: 8px; background: transparent; color: var(--text2); cursor: pointer; transition: all .15s; }
-  .nav-btn.active { background: var(--bg3); border-color: var(--border2); color: var(--text); }
-
-  /* THEME TOGGLE */
-  .theme-btn {
-    width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border2);
-    background: var(--bg3); color: var(--text2); font-size: 15px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: all .15s; flex-shrink: 0;
-  }
-  .theme-btn:active { transform: scale(0.93); }
-
-  .page { display: none; padding: 16px; animation: fadeIn .2s ease; }
-  .page.active { display: block; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  .page { display:none; padding:16px; animation:fadeIn .2s ease; }
+  .page.active { display:block; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
 
   /* SCAN */
-  .nfc-view { max-width: 480px; margin: 0 auto; }
-  .status-hero { border-radius: var(--r); padding: 20px; margin-bottom: 16px; border: 1px solid; animation: slideUp .3s ease; }
-  @keyframes slideUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
-  .status-hero.ok   { background: var(--ok-bg);   border-color: var(--ok-bd); }
-  .status-hero.warn { background: var(--warn-bg); border-color: var(--warn-bd); }
-  .status-hero.err  { background: var(--err-bg);  border-color: var(--err-bd); }
-  .hero-top { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-  .hero-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; animation: pulse 2s infinite; }
-  .ok .hero-dot   { background: var(--ok); }
-  .warn .hero-dot { background: var(--warn); }
-  .err .hero-dot  { background: var(--err); }
+  .nfc-view { max-width:480px; margin:0 auto; }
+  .status-hero { border-radius:var(--r); padding:20px; margin-bottom:16px; border:1px solid; animation:slideUp .3s ease; }
+  @keyframes slideUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+  .status-hero.ok   { background:var(--ok-bg);   border-color:var(--ok-bd); }
+  .status-hero.warn { background:var(--warn-bg); border-color:var(--warn-bd); }
+  .status-hero.err  { background:var(--err-bg);  border-color:var(--err-bd); }
+  .hero-top { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+  .hero-dot { width:12px; height:12px; border-radius:50%; flex-shrink:0; animation:pulse 2s infinite; }
+  .ok .hero-dot   { background:var(--ok); }
+  .warn .hero-dot { background:var(--warn); }
+  .err .hero-dot  { background:var(--err); }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
-  .hero-status-label { font-size: 13px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; }
-  .ok .hero-status-label   { color: var(--ok); }
-  .warn .hero-status-label { color: var(--warn); }
-  .err .hero-status-label  { color: var(--err); }
-  .hero-id { font-family: var(--fm); font-size: 28px; font-weight: 700; color: var(--text); letter-spacing: 1px; line-height: 1; }
-  .hero-machine { font-size: 13px; color: var(--text2); margin-top: 4px; }
-  .info-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 16px; margin-bottom: 12px; box-shadow: var(--shadow); }
-  .info-row { display: flex; align-items: flex-start; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); }
-  .info-row:last-child { border-bottom: none; padding-bottom: 0; }
-  .info-label { font-size: 11px; font-weight: 600; letter-spacing: .8px; text-transform: uppercase; color: var(--text3); min-width: 80px; padding-top: 1px; }
-  .info-value { font-size: 14px; color: var(--text); flex: 1; line-height: 1.4; }
-  .info-value.mono { font-family: var(--fm); font-size: 13px; }
-  .desc-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 16px; margin-bottom: 12px; box-shadow: var(--shadow); }
-  .desc-ttl { font-size: 11px; font-weight: 600; letter-spacing: .8px; text-transform: uppercase; color: var(--text3); margin-bottom: 8px; }
-  .desc-body { font-size: 14px; color: var(--text2); line-height: 1.6; }
-  .ts-footer { font-family: var(--fm); font-size: 11px; color: var(--text3); text-align: right; padding: 4px 0; }
-  .not-found { text-align: center; padding: 60px 24px; }
-  .not-found .nf-code { font-family: var(--fm); font-size: 48px; font-weight: 700; color: var(--border2); margin-bottom: 12px; }
-  .not-found p { font-size: 14px; color: var(--text2); }
+  .hero-status-label { font-size:13px; font-weight:600; letter-spacing:.5px; text-transform:uppercase; }
+  .ok .hero-status-label   { color:var(--ok); }
+  .warn .hero-status-label { color:var(--warn); }
+  .err .hero-status-label  { color:var(--err); }
+  .hero-id { font-family:var(--fm); font-size:28px; font-weight:700; color:var(--text); letter-spacing:1px; line-height:1; }
+  .hero-machine { font-size:13px; color:var(--text2); margin-top:4px; }
+
+  .info-card { background:var(--bg2); border:1px solid var(--border); border-radius:var(--r); padding:16px; margin-bottom:12px; box-shadow:var(--shadow); }
+  .info-row { display:flex; align-items:flex-start; gap:12px; padding:8px 0; border-bottom:1px solid var(--border); }
+  .info-row:last-child { border-bottom:none; padding-bottom:0; }
+  .info-label { font-size:11px; font-weight:600; letter-spacing:.8px; text-transform:uppercase; color:var(--text3); min-width:80px; padding-top:1px; }
+  .info-value { font-size:14px; color:var(--text); flex:1; line-height:1.4; }
+  .info-value.mono { font-family:var(--fm); font-size:13px; }
+
+  .desc-card { background:var(--bg2); border:1px solid var(--border); border-radius:var(--r); padding:16px; margin-bottom:12px; box-shadow:var(--shadow); }
+  .desc-ttl { font-size:11px; font-weight:600; letter-spacing:.8px; text-transform:uppercase; color:var(--text3); margin-bottom:8px; }
+  .desc-body { font-size:14px; color:var(--text2); line-height:1.6; }
+  .ts-footer { font-family:var(--fm); font-size:11px; color:var(--text3); text-align:right; padding:4px 0; }
+  .not-found { text-align:center; padding:60px 24px; }
+  .not-found .nf-code { font-family:var(--fm); font-size:48px; font-weight:700; color:var(--border2); margin-bottom:12px; }
+  .not-found p { font-size:14px; color:var(--text2); }
+
+  /* HISTORIAL en vista scan */
+  .hist-card { background:var(--bg2); border:1px solid var(--border); border-radius:var(--r); padding:16px; margin-bottom:12px; box-shadow:var(--shadow); }
+  .hist-card-title { font-size:11px; font-weight:600; letter-spacing:.8px; text-transform:uppercase; color:var(--text3); margin-bottom:12px; }
+  .hist-item { display:flex; gap:12px; padding:10px 0; border-bottom:1px solid var(--border); }
+  .hist-item:last-child { border-bottom:none; padding-bottom:0; }
+  .hist-timeline { display:flex; flex-direction:column; align-items:center; gap:2px; flex-shrink:0; margin-top:3px; }
+  .hist-dot-outer { width:10px; height:10px; border-radius:50%; border:2px solid; flex-shrink:0; }
+  .hist-dot-outer.ok   { border-color:var(--ok);   background:var(--ok-bg); }
+  .hist-dot-outer.warn { border-color:var(--warn); background:var(--warn-bg); }
+  .hist-dot-outer.err  { border-color:var(--err);  background:var(--err-bg); }
+  .hist-dot-outer.rep  { border-color:var(--accent); background:rgba(59,130,246,0.12); }
+  .hist-info { flex:1; }
+  .hist-accion { font-size:13px; font-weight:500; color:var(--text); }
+  .hist-desc { font-size:12px; color:var(--text2); margin-top:2px; line-height:1.4; }
+  .hist-meta { font-family:var(--fm); font-size:10px; color:var(--text3); margin-top:4px; }
+  .hist-empty { font-size:13px; color:var(--text3); text-align:center; padding:16px 0; }
 
   /* ADMIN */
-  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-  .section-title { font-size: 15px; font-weight: 600; }
-  .btn-primary { padding: 8px 16px; font-size: 13px; font-weight: 600; font-family: var(--ff); background: var(--accent); color: #fff; border: none; border-radius: 8px; cursor: pointer; transition: opacity .15s; }
-  .btn-primary:active { opacity: .85; }
-  .search-bar { display: flex; align-items: center; gap: 8px; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 0 12px; margin-bottom: 14px; box-shadow: var(--shadow); }
-  .search-bar input { flex: 1; background: none; border: none; outline: none; padding: 10px 0; font-size: 14px; font-family: var(--ff); color: var(--text); }
-  .search-bar input::placeholder { color: var(--text3); }
-  .stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
-  .stat-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center; box-shadow: var(--shadow); }
-  .stat-num { font-size: 24px; font-weight: 600; font-family: var(--fm); }
-  .stat-num.ok { color: var(--ok); } .stat-num.warn { color: var(--warn); } .stat-num.err { color: var(--err); }
-  .stat-lbl { font-size: 10px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase; color: var(--text3); margin-top: 2px; }
-  .feeder-list { display: flex; flex-direction: column; gap: 8px; }
-  .feeder-item { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 14px 16px; display: flex; align-items: center; gap: 12px; cursor: pointer; -webkit-tap-highlight-color: transparent; box-shadow: var(--shadow); transition: var(--transition); }
-  .feeder-item:active { background: var(--bg3); }
-  .fi-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .fi-dot.ok { background: var(--ok); } .fi-dot.warn { background: var(--warn); } .fi-dot.err { background: var(--err); }
-  .fi-info { flex: 1; min-width: 0; }
-  .fi-id { font-family: var(--fm); font-size: 14px; font-weight: 600; color: var(--text); }
-  .fi-machine { font-size: 12px; color: var(--text2); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .fi-badge { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 20px; flex-shrink: 0; }
-  .fi-badge.ok { background: var(--ok-bg); color: var(--ok); } .fi-badge.warn { background: var(--warn-bg); color: var(--warn); } .fi-badge.err { background: var(--err-bg); color: var(--err); }
-  .fi-arrow { color: var(--text3); font-size: 18px; }
-  .list-empty { text-align: center; padding: 40px 0; font-size: 14px; color: var(--text3); }
+  .section-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+  .section-title { font-size:15px; font-weight:600; }
+  .btn-primary { padding:8px 16px; font-size:13px; font-weight:600; font-family:var(--ff); background:var(--accent); color:#fff; border:none; border-radius:8px; cursor:pointer; }
+  .search-bar { display:flex; align-items:center; gap:8px; background:var(--bg2); border:1px solid var(--border); border-radius:10px; padding:0 12px; margin-bottom:14px; box-shadow:var(--shadow); }
+  .search-bar input { flex:1; background:none; border:none; outline:none; padding:10px 0; font-size:14px; font-family:var(--ff); color:var(--text); }
+  .search-bar input::placeholder { color:var(--text3); }
+  .stats-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:16px; }
+  .stat-card { background:var(--bg2); border:1px solid var(--border); border-radius:10px; padding:12px; text-align:center; box-shadow:var(--shadow); }
+  .stat-num { font-size:24px; font-weight:600; font-family:var(--fm); }
+  .stat-num.ok { color:var(--ok); } .stat-num.warn { color:var(--warn); } .stat-num.err { color:var(--err); }
+  .stat-lbl { font-size:10px; font-weight:600; letter-spacing:.6px; text-transform:uppercase; color:var(--text3); margin-top:2px; }
+  .feeder-list { display:flex; flex-direction:column; gap:8px; }
+  .feeder-item { background:var(--bg2); border:1px solid var(--border); border-radius:var(--r); padding:14px 16px; display:flex; align-items:center; gap:12px; cursor:pointer; -webkit-tap-highlight-color:transparent; box-shadow:var(--shadow); }
+  .feeder-item:active { background:var(--bg3); }
+  .fi-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+  .fi-dot.ok { background:var(--ok); } .fi-dot.warn { background:var(--warn); } .fi-dot.err { background:var(--err); }
+  .fi-info { flex:1; min-width:0; }
+  .fi-id { font-family:var(--fm); font-size:14px; font-weight:600; color:var(--text); }
+  .fi-machine { font-size:12px; color:var(--text2); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .fi-badge { font-size:10px; font-weight:600; padding:3px 8px; border-radius:20px; flex-shrink:0; }
+  .fi-badge.ok { background:var(--ok-bg); color:var(--ok); } .fi-badge.warn { background:var(--warn-bg); color:var(--warn); } .fi-badge.err { background:var(--err-bg); color:var(--err); }
+  .fi-arrow { color:var(--text3); font-size:18px; }
+  .list-empty { text-align:center; padding:40px 0; font-size:14px; color:var(--text3); }
 
   /* MODAL */
-  .modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,.6); display: flex; align-items: flex-end; opacity: 0; pointer-events: none; transition: opacity .2s; }
-  .modal-overlay.open { opacity: 1; pointer-events: all; }
-  .modal { width: 100%; max-height: 90vh; overflow-y: auto; background: var(--bg2); border-radius: 20px 20px 0 0; border-top: 1px solid var(--border2); padding: 20px 20px 40px; transform: translateY(20px); transition: transform .25s cubic-bezier(.34,1.56,.64,1), background .2s; }
-  .modal-overlay.open .modal { transform: translateY(0); }
-  .modal-handle { width: 36px; height: 4px; background: var(--border2); border-radius: 2px; margin: 0 auto 20px; }
-  .modal-title { font-size: 17px; font-weight: 600; margin-bottom: 20px; color: var(--text); }
-  .form-field { margin-bottom: 14px; }
-  .form-field label { display: block; font-size: 11px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase; color: var(--text3); margin-bottom: 6px; }
-  .form-field input, .form-field select, .form-field textarea { width: 100%; padding: 11px 14px; font-size: 14px; font-family: var(--ff); background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; color: var(--text); outline: none; transition: border-color .15s, background .2s, color .2s; }
-  .form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: var(--accent); }
-  .form-field textarea { resize: vertical; min-height: 80px; }
-  .form-field input[readonly] { color: var(--text2); cursor: not-allowed; }
-  .form-actions { display: flex; gap: 8px; margin-top: 20px; }
-  .btn-save { flex: 1; padding: 12px; font-size: 14px; font-weight: 600; font-family: var(--ff); background: var(--accent); color: #fff; border: none; border-radius: 10px; cursor: pointer; }
-  .btn-cancel { padding: 12px 16px; font-size: 14px; font-family: var(--ff); background: var(--bg3); color: var(--text2); border: 1px solid var(--border); border-radius: 10px; cursor: pointer; }
-  .btn-delete { padding: 12px 16px; font-size: 14px; font-family: var(--ff); background: var(--err-bg); color: var(--err); border: 1px solid var(--err-bd); border-radius: 10px; cursor: pointer; }
+  .modal-overlay { position:fixed; inset:0; z-index:200; background:rgba(0,0,0,.6); display:flex; align-items:flex-end; opacity:0; pointer-events:none; transition:opacity .2s; }
+  .modal-overlay.open { opacity:1; pointer-events:all; }
+  .modal { width:100%; max-height:90vh; overflow-y:auto; background:var(--bg2); border-radius:20px 20px 0 0; border-top:1px solid var(--border2); padding:20px 20px 40px; transform:translateY(20px); transition:transform .25s cubic-bezier(.34,1.56,.64,1),background .2s; }
+  .modal-overlay.open .modal { transform:translateY(0); }
+  .modal-handle { width:36px; height:4px; background:var(--border2); border-radius:2px; margin:0 auto 20px; }
+  .modal-title { font-size:17px; font-weight:600; margin-bottom:20px; color:var(--text); }
+  .form-field { margin-bottom:14px; }
+  .form-field label { display:block; font-size:11px; font-weight:600; letter-spacing:.6px; text-transform:uppercase; color:var(--text3); margin-bottom:6px; }
+  .form-field input,.form-field select,.form-field textarea { width:100%; padding:11px 14px; font-size:14px; font-family:var(--ff); background:var(--bg3); border:1px solid var(--border); border-radius:10px; color:var(--text); outline:none; transition:border-color .15s; }
+  .form-field input:focus,.form-field select:focus,.form-field textarea:focus { border-color:var(--accent); }
+  .form-field textarea { resize:vertical; min-height:80px; }
+  .form-field input[readonly] { color:var(--text2); cursor:not-allowed; }
+  .form-actions { display:flex; gap:8px; margin-top:20px; }
+  .btn-save { flex:1; padding:12px; font-size:14px; font-weight:600; font-family:var(--ff); background:var(--accent); color:#fff; border:none; border-radius:10px; cursor:pointer; }
+  .btn-cancel { padding:12px 16px; font-size:14px; font-family:var(--ff); background:var(--bg3); color:var(--text2); border:1px solid var(--border); border-radius:10px; cursor:pointer; }
+  .btn-delete { padding:12px 16px; font-size:14px; font-family:var(--ff); background:var(--err-bg); color:var(--err); border:1px solid var(--err-bd); border-radius:10px; cursor:pointer; }
+
+  /* HISTORIAL en modal admin */
+  .hist-modal-section { margin-top:20px; border-top:1px solid var(--border); padding-top:16px; }
+  .hist-modal-title { font-size:11px; font-weight:600; letter-spacing:.8px; text-transform:uppercase; color:var(--text3); margin-bottom:12px; }
+  .hist-modal-list { display:flex; flex-direction:column; gap:0; }
+  .hist-modal-item { padding:10px 0; border-bottom:1px solid var(--border); }
+  .hist-modal-item:last-child { border-bottom:none; }
+  .hm-row1 { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .hm-accion { font-size:13px; font-weight:500; color:var(--text); }
+  .hm-fecha { font-family:var(--fm); font-size:10px; color:var(--text3); flex-shrink:0; }
+  .hm-tecnico { font-size:11px; color:var(--accent); margin-top:2px; }
+  .hm-desc { font-size:12px; color:var(--text2); margin-top:3px; line-height:1.4; }
 
   /* LOADER */
-  .loader { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px; gap: 12px; }
-  .spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .loader-text { font-size: 13px; color: var(--text3); }
+  .loader { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:48px; gap:12px; }
+  .spinner { width:28px; height:28px; border:2px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin .7s linear infinite; }
+  @keyframes spin { to{transform:rotate(360deg)} }
+  .loader-text { font-size:13px; color:var(--text3); }
+  .mini-spinner { width:14px; height:14px; border:2px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin .7s linear infinite; display:inline-block; }
 
   /* TOAST */
-  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--bg2); border: 1px solid var(--border2); border-radius: 10px; padding: 10px 18px; font-size: 13px; color: var(--text); z-index: 999; transition: transform .3s cubic-bezier(.34,1.56,.64,1); white-space: nowrap; box-shadow: 0 4px 16px rgba(0,0,0,.2); }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-  .toast.ok-toast { border-color: var(--ok-bd); color: var(--ok); }
-  .toast.err-toast { border-color: var(--err-bd); color: var(--err); }
+  .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px); background:var(--bg2); border:1px solid var(--border2); border-radius:10px; padding:10px 18px; font-size:13px; color:var(--text); z-index:999; transition:transform .3s cubic-bezier(.34,1.56,.64,1); white-space:nowrap; box-shadow:0 4px 16px rgba(0,0,0,.2); }
+  .toast.show { transform:translateX(-50%) translateY(0); }
+  .toast.ok-toast { border-color:var(--ok-bd); color:var(--ok); }
+  .toast.err-toast { border-color:var(--err-bd); color:var(--err); }
 
   /* SYNC */
-  .sync-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text3); padding: 3px 8px; border-radius: 20px; border: 1px solid var(--border); }
-  .sync-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--warn); transition: background .3s; }
+  .sync-badge { display:inline-flex; align-items:center; gap:5px; font-size:11px; color:var(--text3); padding:3px 8px; border-radius:20px; border:1px solid var(--border); }
+  .sync-dot { width:6px; height:6px; border-radius:50%; background:var(--warn); transition:background .3s; }
+
+  /* TABS dentro de modal */
+  .modal-tabs { display:flex; gap:4px; background:var(--bg3); border-radius:10px; padding:4px; margin-bottom:16px; }
+  .modal-tab { flex:1; padding:7px; text-align:center; font-size:12px; font-weight:500; border:none; background:transparent; border-radius:7px; cursor:pointer; color:var(--text2); font-family:var(--ff); transition:all .15s; }
+  .modal-tab.active { background:var(--bg2); color:var(--text); border:1px solid var(--border2); }
+  .modal-pane { display:none; }
+  .modal-pane.active { display:block; }
 </style>
 </head>
 <body>
@@ -168,7 +185,7 @@
   <div class="topbar-logo">SMT<span>·</span>Feeders</div>
   <div class="topbar-right">
     <div class="sync-badge"><div class="sync-dot" id="sync-dot"></div><span id="sync-label">Conectando...</span></div>
-    <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Cambiar tema">🌙</button>
+    <button class="theme-btn" id="theme-btn" onclick="toggleTheme()">🌙</button>
     <div class="topbar-nav">
       <button class="nav-btn active" onclick="goPage('scan',this)">Scan</button>
       <button class="nav-btn" onclick="goPage('admin',this)">Admin</button>
@@ -176,12 +193,14 @@
   </div>
 </div>
 
+<!-- SCAN -->
 <div id="page-scan" class="page active">
   <div class="nfc-view" id="nfc-content">
     <div class="loader"><div class="spinner"></div><div class="loader-text">Cargando...</div></div>
   </div>
 </div>
 
+<!-- ADMIN -->
 <div id="page-admin" class="page">
   <div class="stats-row" id="stats-row">
     <div class="stat-card"><div class="stat-num ok">—</div><div class="stat-lbl">Funcional</div></div>
@@ -201,34 +220,77 @@
   </div>
 </div>
 
+<!-- MODAL -->
 <div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-title" id="modal-title">Nuevo Feeder</div>
-    <div class="form-field">
-      <label>ID del Feeder</label>
-      <input type="text" id="f-id" placeholder="ej. T01F03E31" autocomplete="off" autocapitalize="characters">
+
+    <div class="modal-tabs" id="modal-tabs" style="display:none">
+      <button class="modal-tab active" onclick="switchModalTab('info',this)">Info</button>
+      <button class="modal-tab" onclick="switchModalTab('historial',this)">Historial</button>
+      <button class="modal-tab" onclick="switchModalTab('reparacion',this)">+ Reparación</button>
     </div>
-    <div class="form-field">
-      <label>Máquina / Línea</label>
-      <input type="text" id="f-machine" placeholder="ej. SMT-01 — Línea A">
+
+    <!-- PANE: INFO -->
+    <div class="modal-pane active" id="pane-info">
+      <div class="form-field">
+        <label>ID del Feeder</label>
+        <input type="text" id="f-id" placeholder="ej. T01F03E31" autocomplete="off" autocapitalize="characters">
+      </div>
+      <div class="form-field">
+        <label>Máquina / Línea</label>
+        <input type="text" id="f-machine" placeholder="ej. SMT-01 — Línea A">
+      </div>
+      <div class="form-field">
+        <label>Estado</label>
+        <select id="f-status">
+          <option value="ok">✅ Funcional</option>
+          <option value="warn">⚠️ Mantenimiento</option>
+          <option value="err">❌ No Funcional</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label>Descripción / Falla</label>
+        <textarea id="f-desc" placeholder="ej. Motor 1 dañado. Requiere reemplazo."></textarea>
+      </div>
+      <div class="form-actions">
+        <button class="btn-save" onclick="saveFeeder()">Guardar</button>
+        <button class="btn-delete" id="btn-delete" onclick="deleteFeeder()" style="display:none">Eliminar</button>
+        <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+      </div>
     </div>
-    <div class="form-field">
-      <label>Estado</label>
-      <select id="f-status">
-        <option value="ok">✅ Funcional</option>
-        <option value="warn">⚠️ Mantenimiento</option>
-        <option value="err">❌ No Funcional</option>
-      </select>
+
+    <!-- PANE: HISTORIAL -->
+    <div class="modal-pane" id="pane-historial">
+      <div id="hist-admin-list"><div class="loader"><div class="mini-spinner"></div></div></div>
     </div>
-    <div class="form-field">
-      <label>Descripción / Falla</label>
-      <textarea id="f-desc" placeholder="ej. Motor 1 dañado. Requiere reemplazo."></textarea>
-    </div>
-    <div class="form-actions">
-      <button class="btn-save" onclick="saveFeeder()">Guardar</button>
-      <button class="btn-delete" id="btn-delete" onclick="deleteFeeder()" style="display:none">Eliminar</button>
-      <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+
+    <!-- PANE: REPARACION -->
+    <div class="modal-pane" id="pane-reparacion">
+      <div class="form-field">
+        <label>Técnico</label>
+        <input type="text" id="r-tecnico" placeholder="Nombre del técnico">
+      </div>
+      <div class="form-field">
+        <label>Acción realizada</label>
+        <select id="r-accion">
+          <option value="Reparación">🔧 Reparación</option>
+          <option value="Mantenimiento">🔩 Mantenimiento</option>
+          <option value="Reemplazo de pieza">🔄 Reemplazo de pieza</option>
+          <option value="Limpieza">🧹 Limpieza</option>
+          <option value="Calibración">📐 Calibración</option>
+          <option value="Inspección">🔍 Inspección</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label>Descripción detallada</label>
+        <textarea id="r-desc" placeholder="ej. Se reemplazó motor 1, se ajustaron rodillos y se probó alimentación."></textarea>
+      </div>
+      <div class="form-actions">
+        <button class="btn-save" onclick="saveReparacion()">Registrar</button>
+        <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+      </div>
     </div>
   </div>
 </div>
@@ -238,95 +300,87 @@
 <script>
 const SUPA_URL = 'https://gswgpbkdwdagohryemdm.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdzd2dwYmtkd2RhZ29ocnllbWRtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3OTczNTAsImV4cCI6MjA5MjM3MzM1MH0.8dZqZjizopP1XGW4Gu3a16uYzjlnE-dIi-M-YsxsmSo';
-const HEADERS  = { 'Content-Type': 'application/json', 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY };
-const API      = SUPA_URL + '/rest/v1/feeders';
+const HEADERS  = {'Content-Type':'application/json','apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY};
+const API      = SUPA_URL+'/rest/v1/feeders';
+const API_HIST = SUPA_URL+'/rest/v1/historial';
 
 const STATUS = {
-  ok:   { label: 'Funcional',     cls: 'ok'   },
-  warn: { label: 'Mantenimiento', cls: 'warn' },
-  err:  { label: 'No Funcional',  cls: 'err'  },
+  ok:   {label:'Funcional',     cls:'ok'},
+  warn: {label:'Mantenimiento', cls:'warn'},
+  err:  {label:'No Funcional',  cls:'err'},
 };
 
-let feeders = [];
-let editingId = null;
+let feeders=[], editingId=null;
 
 // ── TEMA ──
-function initTheme() {
-  const saved = localStorage.getItem('smt_theme') || 'dark';
-  setTheme(saved, false);
+function initTheme(){const s=localStorage.getItem('smt_theme')||'dark';setTheme(s,false);}
+function setTheme(t,save=true){
+  document.documentElement.setAttribute('data-theme',t);
+  document.getElementById('theme-btn').textContent=t==='dark'?'☀️':'🌙';
+  document.getElementById('theme-meta').setAttribute('content',t==='dark'?'#0a0a0a':'#f5f5f5');
+  if(save)localStorage.setItem('smt_theme',t);
 }
-function setTheme(theme, save=true) {
-  document.documentElement.setAttribute('data-theme', theme);
-  document.getElementById('theme-btn').textContent = theme === 'dark' ? '☀️' : '🌙';
-  document.getElementById('theme-meta').setAttribute('content', theme === 'dark' ? '#0a0a0a' : '#f5f5f5');
-  if (save) localStorage.setItem('smt_theme', theme);
-}
-function toggleTheme() {
-  const current = document.documentElement.getAttribute('data-theme');
-  setTheme(current === 'dark' ? 'light' : 'dark');
-}
+function toggleTheme(){const c=document.documentElement.getAttribute('data-theme');setTheme(c==='dark'?'light':'dark');}
 
 // ── DB ──
-async function dbFetch() {
-  const r = await fetch(API + '?order=id', { headers: HEADERS });
-  if (!r.ok) throw new Error('Error');
-  return r.json();
-}
-async function dbUpsert(row) {
-  const r = await fetch(API, { method: 'POST', headers: { ...HEADERS, 'Prefer': 'resolution=merge-duplicates' }, body: JSON.stringify(row) });
-  if (!r.ok) throw new Error('Error');
-}
-async function dbDelete(id) {
-  const r = await fetch(API + '?id=eq.' + encodeURIComponent(id), { method: 'DELETE', headers: HEADERS });
-  if (!r.ok) throw new Error('Error');
-}
+async function dbFetch(){const r=await fetch(API+'?order=id',{headers:HEADERS});if(!r.ok)throw new Error();return r.json();}
+async function dbUpsert(row){const r=await fetch(API,{method:'POST',headers:{...HEADERS,'Prefer':'resolution=merge-duplicates'},body:JSON.stringify(row)});if(!r.ok)throw new Error();}
+async function dbDelete(id){const r=await fetch(API+'?id=eq.'+encodeURIComponent(id),{method:'DELETE',headers:HEADERS});if(!r.ok)throw new Error();}
+async function dbHistFetch(feederId){const r=await fetch(API_HIST+'?feeder_id=eq.'+encodeURIComponent(feederId)+'&order=fecha.desc',{headers:HEADERS});if(!r.ok)throw new Error();return r.json();}
+async function dbHistInsert(row){const r=await fetch(API_HIST,{method:'POST',headers:{...HEADERS,'Prefer':'return=minimal'},body:JSON.stringify(row)});if(!r.ok)throw new Error();}
 
-function setSyncStatus(ok, label) {
-  document.getElementById('sync-dot').style.background = ok ? 'var(--ok)' : 'var(--err)';
-  document.getElementById('sync-label').textContent = label;
-}
-function showToast(msg, type) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast ' + (type==='ok'?'ok-toast':type==='err'?'err-toast':'') + ' show';
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
+function setSyncStatus(ok,label){document.getElementById('sync-dot').style.background=ok?'var(--ok)':'var(--err)';document.getElementById('sync-label').textContent=label;}
+function showToast(msg,type){const t=document.getElementById('toast');t.textContent=msg;t.className='toast '+(type==='ok'?'ok-toast':type==='err'?'err-toast':'')+' show';setTimeout(()=>t.classList.remove('show'),2500);}
 
 // ── NAV ──
-function goPage(name, btn) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-' + name).classList.add('active');
-  if (btn) btn.classList.add('active');
-  if (name === 'admin') loadAndRender();
+function goPage(name,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  if(btn)btn.classList.add('active');
+  if(name==='admin')loadAndRender();
 }
 
 // ── SCAN ──
-async function renderScan() {
-  const params = new URLSearchParams(window.location.search);
-  const fid = params.get('feeder');
-  const el = document.getElementById('nfc-content');
-  if (!fid) {
-    try { feeders = await dbFetch(); setSyncStatus(true, 'En línea'); } catch(e) { setSyncStatus(false, 'Sin conexión'); }
-    el.innerHTML = `
-      <div style="text-align:center;padding:48px 0;">
-        <div style="font-size:52px;margin-bottom:16px;">📡</div>
-        <div style="font-size:18px;font-weight:600;margin-bottom:8px;color:var(--text)">Escanea una etiqueta NFC</div>
-        <div style="font-size:14px;color:var(--text2);line-height:1.6;">Acerca tu teléfono a la etiqueta del feeder para ver su estado.</div>
-        ${feeders.length ? `<div style="margin-top:16px;font-size:12px;color:var(--text3)">${feeders.length} feeders registrados</div>` : ''}
-      </div>`;
+async function renderScan(){
+  const params=new URLSearchParams(window.location.search);
+  const fid=params.get('feeder');
+  const el=document.getElementById('nfc-content');
+  if(!fid){
+    try{feeders=await dbFetch();setSyncStatus(true,'En línea');}catch(e){setSyncStatus(false,'Sin conexión');}
+    el.innerHTML=`<div style="text-align:center;padding:48px 0;">
+      <div style="font-size:52px;margin-bottom:16px;">📡</div>
+      <div style="font-size:18px;font-weight:600;margin-bottom:8px;color:var(--text)">Escanea una etiqueta NFC</div>
+      <div style="font-size:14px;color:var(--text2);line-height:1.6;">Acerca tu teléfono a la etiqueta del feeder para ver su estado.</div>
+      ${feeders.length?`<div style="margin-top:16px;font-size:12px;color:var(--text3)">${feeders.length} feeders registrados</div>`:''}
+    </div>`;
     return;
   }
-  try {
-    const r = await fetch(API + '?id=eq.' + encodeURIComponent(fid.toUpperCase()), { headers: HEADERS });
-    const data = await r.json();
-    setSyncStatus(true, 'En línea');
-    if (!data.length) {
-      el.innerHTML = `<div class="not-found"><div class="nf-code">404</div><p>Feeder <strong>${fid}</strong> no encontrado.</p></div>`;
-      return;
-    }
-    const f = data[0]; const s = STATUS[f.status] || STATUS.err;
-    el.innerHTML = `
+  try{
+    const r=await fetch(API+'?id=eq.'+encodeURIComponent(fid.toUpperCase()),{headers:HEADERS});
+    const data=await r.json();
+    setSyncStatus(true,'En línea');
+    if(!data.length){el.innerHTML=`<div class="not-found"><div class="nf-code">404</div><p>Feeder <strong>${fid}</strong> no encontrado.</p></div>`;return;}
+    const f=data[0]; const s=STATUS[f.status]||STATUS.err;
+
+    // Cargar historial
+    let histHTML='<div class="hist-empty">Sin registros de reparación</div>';
+    try{
+      const hist=await dbHistFetch(f.id);
+      if(hist.length){
+        histHTML=hist.map(h=>`
+          <div class="hist-item">
+            <div class="hist-timeline"><div class="hist-dot-outer rep"></div></div>
+            <div class="hist-info">
+              <div class="hist-accion">${h.accion}</div>
+              ${h.descripcion?`<div class="hist-desc">${h.descripcion}</div>`:''}
+              <div class="hist-meta">${h.tecnico?h.tecnico+' · ':''} ${h.fecha}</div>
+            </div>
+          </div>`).join('');
+      }
+    }catch(e){}
+
+    el.innerHTML=`
       <div class="status-hero ${s.cls}">
         <div class="hero-top"><div class="hero-dot"></div><div class="hero-status-label">${s.label}</div></div>
         <div class="hero-id">${f.id}</div>
@@ -337,32 +391,36 @@ async function renderScan() {
         <div class="info-row"><span class="info-label">Estado</span><span class="info-value" style="color:var(--${s.cls})">${s.label}</span></div>
         <div class="info-row"><span class="info-label">Máquina</span><span class="info-value">${f.machine}</span></div>
       </div>
-      ${f.description ? `<div class="desc-card"><div class="desc-ttl">Descripción</div><div class="desc-body">${f.description}</div></div>` : ''}
-      <div class="ts-footer">Actualizado: ${f.updated || '—'}</div>`;
-  } catch(e) {
-    setSyncStatus(false, 'Sin conexión');
-    el.innerHTML = `<div class="not-found"><div class="nf-code" style="font-size:32px">Sin conexión</div><p>Verifica tu internet e intenta de nuevo.</p></div>`;
+      ${f.description?`<div class="desc-card"><div class="desc-ttl">Descripción</div><div class="desc-body">${f.description}</div></div>`:''}
+      <div class="hist-card">
+        <div class="hist-card-title">Historial de reparaciones</div>
+        ${histHTML}
+      </div>
+      <div class="ts-footer">Actualizado: ${f.updated||'—'}</div>`;
+  }catch(e){
+    setSyncStatus(false,'Sin conexión');
+    el.innerHTML=`<div class="not-found"><div class="nf-code" style="font-size:32px">Sin conexión</div><p>Verifica tu internet.</p></div>`;
   }
 }
 
 // ── ADMIN ──
-async function loadAndRender() {
-  try { feeders = await dbFetch(); setSyncStatus(true, 'En línea'); renderList(); }
-  catch(e) { setSyncStatus(false, 'Sin conexión'); document.getElementById('feeder-list').innerHTML = '<div class="list-empty">Error de conexión.</div>'; }
+async function loadAndRender(){
+  try{feeders=await dbFetch();setSyncStatus(true,'En línea');renderList();}
+  catch(e){setSyncStatus(false,'Sin conexión');document.getElementById('feeder-list').innerHTML='<div class="list-empty">Error de conexión.</div>';}
 }
-function renderList() {
-  const q = (document.getElementById('search-input')?.value || '').toLowerCase();
-  const filtered = feeders.filter(f => f.id.toLowerCase().includes(q) || f.machine.toLowerCase().includes(q));
-  const ok = feeders.filter(f=>f.status==='ok').length;
-  const warn = feeders.filter(f=>f.status==='warn').length;
-  const err = feeders.filter(f=>f.status==='err').length;
-  document.getElementById('stats-row').innerHTML = `
+function renderList(){
+  const q=(document.getElementById('search-input')?.value||'').toLowerCase();
+  const filtered=feeders.filter(f=>f.id.toLowerCase().includes(q)||f.machine.toLowerCase().includes(q));
+  const ok=feeders.filter(f=>f.status==='ok').length;
+  const warn=feeders.filter(f=>f.status==='warn').length;
+  const err=feeders.filter(f=>f.status==='err').length;
+  document.getElementById('stats-row').innerHTML=`
     <div class="stat-card"><div class="stat-num ok">${ok}</div><div class="stat-lbl">Funcional</div></div>
     <div class="stat-card"><div class="stat-num warn">${warn}</div><div class="stat-lbl">Mant.</div></div>
     <div class="stat-card"><div class="stat-num err">${err}</div><div class="stat-lbl">No Func.</div></div>`;
-  const el = document.getElementById('feeder-list');
-  if (!filtered.length) { el.innerHTML = '<div class="list-empty">Sin resultados</div>'; return; }
-  el.innerHTML = filtered.map(f => `
+  const el=document.getElementById('feeder-list');
+  if(!filtered.length){el.innerHTML='<div class="list-empty">Sin resultados</div>';return;}
+  el.innerHTML=filtered.map(f=>`
     <div class="feeder-item" onclick="openForm('${f.id}')">
       <div class="fi-dot ${f.status}"></div>
       <div class="fi-info"><div class="fi-id">${f.id}</div><div class="fi-machine">${f.machine}</div></div>
@@ -371,44 +429,111 @@ function renderList() {
     </div>`).join('');
 }
 
-// ── MODAL ──
-function openForm(id) {
-  editingId = id; const isEdit = id !== null;
-  const f = isEdit ? feeders.find(x => x.id === id) : { id:'', machine:'', status:'ok', description:'' };
-  document.getElementById('modal-title').textContent = isEdit ? 'Editar Feeder' : 'Nuevo Feeder';
-  document.getElementById('f-id').value = f?.id || '';
-  document.getElementById('f-id').readOnly = isEdit;
-  document.getElementById('f-machine').value = f?.machine || '';
-  document.getElementById('f-status').value = f?.status || 'ok';
-  document.getElementById('f-desc').value = f?.description || '';
-  document.getElementById('btn-delete').style.display = isEdit ? 'block' : 'none';
+// ── MODAL TABS ──
+function switchModalTab(name, btn){
+  document.querySelectorAll('.modal-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.modal-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('pane-'+name).classList.add('active');
+  if(btn)btn.classList.add('active');
+  if(name==='historial')loadHistAdmin();
+}
+
+async function loadHistAdmin(){
+  const el=document.getElementById('hist-admin-list');
+  el.innerHTML='<div class="loader"><div class="mini-spinner"></div></div>';
+  try{
+    const hist=await dbHistFetch(editingId);
+    if(!hist.length){el.innerHTML='<div class="hist-empty" style="padding:24px 0">Sin reparaciones registradas</div>';return;}
+    el.innerHTML=`<div class="hist-modal-list">${hist.map(h=>`
+      <div class="hist-modal-item">
+        <div class="hm-row1">
+          <span class="hm-accion">${h.accion}</span>
+          <span class="hm-fecha">${h.fecha}</span>
+        </div>
+        ${h.tecnico?`<div class="hm-tecnico">👤 ${h.tecnico}</div>`:''}
+        ${h.descripcion?`<div class="hm-desc">${h.descripcion}</div>`:''}
+      </div>`).join('')}</div>`;
+  }catch(e){el.innerHTML='<div class="hist-empty">Error al cargar historial</div>';}
+}
+
+// ── MODAL FEEDER ──
+function openForm(id){
+  editingId=id; const isEdit=id!==null;
+  const f=isEdit?feeders.find(x=>x.id===id):{id:'',machine:'',status:'ok',description:''};
+  document.getElementById('modal-title').textContent=isEdit?'Feeder '+f.id:'Nuevo Feeder';
+  document.getElementById('f-id').value=f?.id||'';
+  document.getElementById('f-id').readOnly=isEdit;
+  document.getElementById('f-machine').value=f?.machine||'';
+  document.getElementById('f-status').value=f?.status||'ok';
+  document.getElementById('f-desc').value=f?.description||'';
+  document.getElementById('btn-delete').style.display=isEdit?'block':'none';
+  document.getElementById('modal-tabs').style.display=isEdit?'flex':'none';
+  // reset tabs
+  document.querySelectorAll('.modal-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.modal-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('pane-info').classList.add('active');
+  document.querySelectorAll('.modal-tab')[0].classList.add('active');
   document.getElementById('modal-overlay').classList.add('open');
 }
-function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
-function handleOverlayClick(e) { if (e.target === document.getElementById('modal-overlay')) closeModal(); }
+function closeModal(){document.getElementById('modal-overlay').classList.remove('open');}
+function handleOverlayClick(e){if(e.target===document.getElementById('modal-overlay'))closeModal();}
 
-async function saveFeeder() {
-  const id = document.getElementById('f-id').value.trim().toUpperCase();
-  const machine = document.getElementById('f-machine').value.trim();
-  const status = document.getElementById('f-status').value;
-  const description = document.getElementById('f-desc').value.trim();
-  if (!id || !machine) { showToast('ID y Máquina son obligatorios', 'err'); return; }
-  const now = new Date();
-  const updated = now.toISOString().slice(0,10) + ' ' + now.toTimeString().slice(0,5);
-  const btn = document.querySelector('.btn-save');
-  btn.textContent = 'Guardando...'; btn.disabled = true;
-  try {
-    await dbUpsert({ id, machine, status, description, updated });
-    showToast('✓ Guardado correctamente', 'ok');
+async function saveFeeder(){
+  const id=document.getElementById('f-id').value.trim().toUpperCase();
+  const machine=document.getElementById('f-machine').value.trim();
+  const status=document.getElementById('f-status').value;
+  const description=document.getElementById('f-desc').value.trim();
+  if(!id||!machine){showToast('ID y Máquina son obligatorios','err');return;}
+  const now=new Date();
+  const updated=now.toISOString().slice(0,10)+' '+now.toTimeString().slice(0,5);
+
+  // Detectar cambio de estado para historial automático
+  const prev=feeders.find(f=>f.id===id);
+  const statusChanged=prev && prev.status!==status;
+
+  const btn=document.querySelector('.btn-save');
+  btn.textContent='Guardando...';btn.disabled=true;
+  try{
+    await dbUpsert({id,machine,status,description,updated});
+    // Si cambió el estado, registrar en historial automáticamente
+    if(statusChanged){
+      const sLabel=STATUS[status]?.label||status;
+      const sOld=STATUS[prev.status]?.label||prev.status;
+      await dbHistInsert({feeder_id:id,accion:'Cambio de estado',descripcion:`Estado cambiado de "${sOld}" a "${sLabel}". ${description||''}`.trim(),tecnico:'Admin',fecha:updated});
+    }
+    showToast('✓ Guardado correctamente','ok');
     closeModal(); await loadAndRender();
-  } catch(e) { showToast('Error al guardar', 'err'); }
-  finally { btn.textContent = 'Guardar'; btn.disabled = false; }
+  }catch(e){showToast('Error al guardar','err');}
+  finally{btn.textContent='Guardar';btn.disabled=false;}
 }
 
-async function deleteFeeder() {
-  if (!confirm('¿Eliminar feeder ' + editingId + '?')) return;
-  try { await dbDelete(editingId); showToast('Feeder eliminado', 'ok'); closeModal(); await loadAndRender(); }
-  catch(e) { showToast('Error al eliminar', 'err'); }
+async function deleteFeeder(){
+  if(!confirm('¿Eliminar feeder '+editingId+'?'))return;
+  try{await dbDelete(editingId);showToast('Feeder eliminado','ok');closeModal();await loadAndRender();}
+  catch(e){showToast('Error al eliminar','err');}
+}
+
+// ── REPARACION ──
+async function saveReparacion(){
+  const tecnico=document.getElementById('r-tecnico').value.trim();
+  const accion=document.getElementById('r-accion').value;
+  const desc=document.getElementById('r-desc').value.trim();
+  if(!desc){showToast('Agrega una descripción','err');return;}
+  const now=new Date();
+  const fecha=now.toISOString().slice(0,10)+' '+now.toTimeString().slice(0,5);
+  const btn=document.querySelectorAll('.btn-save')[0];
+  btn.textContent='Registrando...';btn.disabled=true;
+  try{
+    await dbHistInsert({feeder_id:editingId,accion,descripcion:desc,tecnico:tecnico||'Sin nombre',fecha});
+    // Si se registra reparación, marcar feeder como funcional automáticamente
+    const f=feeders.find(x=>x.id===editingId);
+    if(f && accion==='Reparación'){
+      await dbUpsert({...f,status:'ok',updated:fecha});
+    }
+    showToast('✓ Reparación registrada','ok');
+    closeModal(); await loadAndRender();
+  }catch(e){showToast('Error al registrar','err');}
+  finally{btn.textContent='Registrar';btn.disabled=false;}
 }
 
 // ── INIT ──
